@@ -103,7 +103,8 @@ module Excon
     #   @return [Connection] A new Excon::Connection instance
     def new(url, params = {})
       uri_parser = params[:uri_parser] || Excon.defaults[:uri_parser]
-      uri = uri_parser.parse(url)
+      uri = url.is_a?(uri_parser) ? url : uri_parser.parse(url)
+
       unless uri.scheme
         raise ArgumentError.new("Invalid URI: #{uri}")
       end
